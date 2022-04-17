@@ -16,6 +16,9 @@ class DemoReportLab(object):
     def read_str(self):
         pass
 
+    def load_data(self):
+        pass
+
 
 if __name__ == "__main__":
     pass
