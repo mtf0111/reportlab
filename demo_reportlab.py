@@ -1,6 +1,6 @@
 from PIL import Image
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter, A4
+from reportlab.lib.pagesizes import letter, A4, landscape
 from reportlab.lib.units import inch
 from reportlab.pdfbase import pdfmetrics, ttfonts
 
@@ -43,6 +43,7 @@ class DemoReportLab(object):
         self.draw_shape()
         self.draw_textobj()
         self.draw_pathobj()
+        self.draw_image()
         self.show_cav()
         self.save_cav()
 
@@ -158,7 +159,26 @@ class DemoReportLab(object):
         self.cav.clipPath(aPath=path_obj, stroke=1, fill=1, fillMode=None)
 
     def draw_image(self):
-        pass
+        # drawImage 在页面中绘制一个图像
+        # 参数
+        # image 一个ImageReader对象或者一个图片的文件名称
+        # width|height 定义绘制图片的尺寸
+        # mask
+        from reportlab.lib.utils import ImageReader
+        from io import BytesIO
+        self.show_cav()
+
+        image_path = "./img/logo.png"
+        img = Image.open(image_path)
+        width, height = img.size
+        img_io = BytesIO()
+        img.save(img_io, 'png')
+        image = ImageReader(img_io)
+
+        # image = "./img/logo.png"
+        self.cav.drawImage(image=image, x=0, y=0, width=width, height=height,
+                           mask=None, preserveAspectRatio=False, anchor='c',
+                           anchorAtXY=False, showBoundary=False)
 
     def size(self):
         print("inch", inch)
