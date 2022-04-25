@@ -42,15 +42,14 @@ class DemoReportLab(object):
         self.draw_line()
         self.draw_shape()
         self.draw_image()
-        self.chage_color()
+        self.change_color()
         self.set_line()
-        self.set_geometry()
         self.control_cav_state()
         self.draw_textobj()
         self.draw_pathobj()
+        self.set_geometry()
         # self.set_grad()
         self.set_other()
-        # self.show_cav()
         self.save_cav()
 
     def draw_str(self):
@@ -66,6 +65,8 @@ class DemoReportLab(object):
         self.cav.drawRightString(x, y-10, "drawRightString "+text)
         self.cav.drawCentredString(x, y-20, "drawCentredString "+text)
         # self.cav.drawAlignedString(x, y-20, "drawAlignedString "+text)
+
+        self.cav.bookmarkPage(key="draw_str")
         self.show_cav()
 
     def show_cav(self):
@@ -95,7 +96,7 @@ class DemoReportLab(object):
         # 画多条线 参数 linelist 存放多条线的坐标
         self.cav.lines(linelist=crosshairs)
         self.cav.drawCentredString(x=450, y=380, text="lines方法")
-
+        self.cav.bookmarkPage(key="draw_line")
         self.show_cav()
 
     def draw_shape(self):
@@ -150,6 +151,7 @@ class DemoReportLab(object):
         self.cav.ellipse(x1=350, y1=10, x2=550, y2=165, stroke=1, fill=0)
         self.cav.drawCentredString(x=450, y=175, text="ellipse方法")
 
+        self.cav.bookmarkPage(key="draw_shape")
         self.show_cav()
 
     def draw_textobj(self):
@@ -254,6 +256,8 @@ class DemoReportLab(object):
         # drawText(aTextObject)
         # aTextObject == PDFTextObject对象
         self.cav.drawText(aTextObject=textobj)
+
+        self.cav.bookmarkPage(key="draw_textobj")
         self.show_cav()
 
     def draw_pathobj(self):
@@ -304,6 +308,7 @@ class DemoReportLab(object):
         # clipPath方法剪切path object？
         # self.cav.clipPath(aPath=pathobject)
 
+        self.cav.bookmarkPage(key="draw_pathobj")
         self.show_cav()
 
     def draw_image(self):
@@ -338,9 +343,10 @@ class DemoReportLab(object):
                            mask=None, preserveAspectRatio=False, anchor='c',
                            anchorAtXY=False, showBoundary=True)
 
+        self.cav.bookmarkPage(key="draw_image")
         self.show_cav()
 
-    def chage_color(self):
+    def change_color(self):
         self.set_font()
         # 设置颜色
         # CMYK模式是减色模式，相对应的RGB模式是加色模式
@@ -422,6 +428,8 @@ class DemoReportLab(object):
         # aColor = colors.darkgray
         self.cav.setFillColor(aColor=aColor, alpha=None)
         self.cav.setStrokeColor(aColor=aColor, alpha=None)
+
+        self.cav.bookmarkPage(key="change_color")
         self.show_cav()
 
     def set_line(self):
@@ -479,12 +487,11 @@ class DemoReportLab(object):
             self.cav.line(x1=30+dx, y1=50, x2=90+dx, y2=50)
             self.cav.drawCentredString(x=60+dx, y=140, text=f'setDash arr={arr},phase={phase}')
             dx += 150
-
+        self.cav.bookmarkPage(key="set_line")
         self.show_cav()
 
     def set_geometry(self):
         # 设置几何变换
-        self.cav.bookmarkPage(key="s1s1")
         self.set_font()
         # setPageSize 设置页面大小
         self.cav.setPageSize(size=letter)
@@ -511,6 +518,8 @@ class DemoReportLab(object):
         self.cav.drawString(0, 0, "old:(0,0) the Origin")
         self.cav.translate(dx=50, dy=50)
         self.cav.drawString(0, 0, "new:(0,0) the Origin")
+
+        self.cav.bookmarkPage(key="set_geometry")
         self.show_cav()
 
         # scale 按 x y 比例缩放
@@ -527,6 +536,7 @@ class DemoReportLab(object):
         self.cav.setFillColor(aColor="black", alpha=0.5)
         self.cav.drawCentredString(x, y, text="x, y = %s" % ([x*dx, y*dy]))
 
+        self.cav.bookmarkPage(key="set_scale")
         self.show_cav()
 
         # rotate 将画布旋转 theta=角度
@@ -544,6 +554,8 @@ class DemoReportLab(object):
         for theta in range(60):
             self.cav.rotate(theta=1)
             self.cav.line(x1=450, y1=200, x2=550, y2=200)
+
+        self.cav.bookmarkPage(key="set_rotate")
         self.show_cav()
 
         # skew(alpha, beta) 错切
@@ -555,6 +567,8 @@ class DemoReportLab(object):
         self.cav.skew(alpha=0, beta=45)
         self.cav.setFillColor(aColor="green")
         self.cav.rect(x=300, y=10, width=25, height=50, fill=1)
+
+        self.cav.bookmarkPage(key="set_skew")
         self.show_cav()
 
     def control_cav_state(self):
@@ -571,6 +585,8 @@ class DemoReportLab(object):
         # 清除setFillColor(aColor=colors.green)和scale(2, 2)的样式状态
         self.cav.restoreState()
         self.cav.circle(x_cen=2.5*inch, y_cen=2*inch, r=1*inch, fill=1)
+
+        self.cav.bookmarkPage(key="control_cav_state")
         self.show_cav()
 
     def set_other(self):
@@ -607,21 +623,29 @@ class DemoReportLab(object):
             effectname='Split', duration=1, direction=0, dimension='H', motion='I')
 
         # canvas.bookmarkPage(name) 当前页面创建一个书签
-        self.cav.bookmarkPage(key="mark_key")
+        # self.cav.bookmarkPage(key="mark_key")
         # canvas.addOutlineEntry(title, key, level=0, closed=None)
-        # 设置大纲目录 title名称 key对应的书签 level目录级别  closed是否展开子目录 默认展开
-        for i in range(1, 6):
-            self.cav.setFillColor(aColor=colors.red)
-            self.cav.rect(x=i*inch, y=i*inch, width=inch,
-                          height=0.8*inch, fill=1)
-            self.set_font()
-            self.cav.drawString(x=300, y=300, text=f"Page{i}")
-            self.cav.bookmarkPage(key=f"Page_{i}")
-            self.cav.addOutlineEntry(
-                title=f"Page_{i}", key=f"Page_{i}", level=0, closed=None)
-            self.cav.addOutlineEntry(title=f"Page__{i}", key=f"Page_{i}", level=1, closed=0)
-            self.cav.addOutlineEntry(title=f"Page___{i}", key=f"Page_{i}", level=2, closed=None)
-            self.show_cav()
+        # 设置书签目录 title名称 key对应的书签 level目录级别  closed是否展开子目录 默认展开
+        self.cav.addOutlineEntry(
+            title="绘制字符串", key="draw_str", level=0, closed=None)
+        self.cav.addOutlineEntry(
+            title="绘制直线", key="draw_line", level=0, closed=None)
+        self.cav.addOutlineEntry(
+            title="绘制形状", key="draw_shape", level=0, closed=None)
+        self.cav.addOutlineEntry(
+            title="绘制图片", key="draw_image", level=0, closed=None)
+        self.cav.addOutlineEntry(
+            title="改变颜色", key="change_color", level=0, closed=None)
+        self.cav.addOutlineEntry(
+            title="线条样式", key="set_line", level=0, closed=None)
+        self.cav.addOutlineEntry(
+            title="几何变换", key="set_geometry", level=0, closed=None)
+        self.cav.addOutlineEntry(
+            title="画布缩放", key="set_scale", level=1, closed=None)
+        self.cav.addOutlineEntry(
+            title="画布旋转", key="set_rotate", level=1, closed=1)
+        self.cav.addOutlineEntry(
+            title="下一级", key="set_skew", level=2, closed=None)
 
         # canvas.showOutline() 设置默认显示大纲目录
         self.cav.showOutline()
@@ -639,9 +663,12 @@ class DemoReportLab(object):
 
         # canvas.addLiteral()
         # canvas.stringWidth(self, text, fontName, fontSize, encoding=None)
-        print("stringWidth", self.cav.stringWidth(
+        print("stringWidth方法", self.cav.stringWidth(
             text="宋体", fontName="simsun", fontSize=10))
         # canvas.setPageCompression(onoff=1)
+
+        self.cav.bookmarkPage(key="set_other")
+        self.show_cav()
 
     def size(self):
         print("inch", inch)
@@ -746,7 +773,7 @@ if __name__ == "__main__":
     r = DemoReportLab()
     r.size()
     r.draw_PDF()
-    cav = canvas.Canvas(filename="star.pdf")
-    joins(cav)
-    cav.showPage()
-    cav.save()
+    # cav = canvas.Canvas(filename="star.pdf")
+    # joins(cav)
+    # cav.showPage()
+    # cav.save()
